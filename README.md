@@ -27,3 +27,7 @@ group by mappluto_citywide17v1x1.geom_2263, mappluto_citywide17v1x1.bbl;
 
 
 -- combine both chunks
+
+select sub.geom_2263, sum(sub.shape_area) as build_area, sub.bbl
+FROM ( SELECT bldgs_20180611.shape_area, mappluto_citywide17v1x1.geom_2263, mappluto_citywide17v1x1.bbl FROM infrastructure.bldgs_20180611 JOIN admin.mappluto_citywide17v1x1 on bbl=bbl where ownertype='P' and block = 4539) as sub
+GROUP BY geom_2263, bbl;
