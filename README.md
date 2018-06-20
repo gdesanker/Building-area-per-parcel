@@ -9,8 +9,10 @@ calculate area of all buildings within each parcel. Based off of Mike's 'Calcula
 -- Calculate percentage of each borough that is occupied by buildings
 
 SELECT boroname, boro_area, sum(ST_Area(geom_2263)/43560) AS bldgarea, sum(ST_Area(geom_2263)/43560)/boro_area as propbldg -- converting to acre
+
 FROM (
   SELECT nycbldgs.bin, nycbldgs.geom_2263, boroughs_nowater.boroname, st_area(boroughs_nowater.geom_2263)/43560 as boro_area -- joining buildings on boroughs
+  
   FROM staging.boroughs_nowater JOIN staging.nycbldgs ON ST_Intersects(nycbldgs.geom_2263, boroughs_nowater.geom_2263)
 ) sub
 GROUP BY boroname, boro_area
